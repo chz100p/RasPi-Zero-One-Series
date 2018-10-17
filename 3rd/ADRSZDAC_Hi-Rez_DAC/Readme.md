@@ -14,9 +14,15 @@ dtparam=audio=on
 コマンドラインによる音声再生・音量調節  
 
 ### 音声再生(wavのみ)
-
+```sh
 aplay --device=hw:0,0 ＜音声ファイル名.wav＞  
-
+```
+### 音声再生(mp3,etc...)
+```sh
+# sudo apt install mplayer
+mplayer -quiet -ao alsa:device=hw=0.0 ＜音声ファイル名.mp3＞  
+```
 ### 音量調節
-
+```sh
 amixer set 'Digital' ＜音量:パーセンテージ＞%
+```
