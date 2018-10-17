@@ -1,6 +1,6 @@
 # ADRSZDAC ラズパイハイレゾDAC説明書
 
-### 初期セットアップ方法
+## 初期セットアップ方法
 
  1. /boot/config.txtに、以下の行を追記します。  
 dtparam=i2s=on  
@@ -10,17 +10,24 @@ dtoverlay=hifiberry-dacplus,24db_digital_gain
 dtparam=audio=on  
 ↓  
 \#dtparam=audio=on  
-
-コマンドラインによる音声再生・音量調節  
+## 再起動後、デバイス確認
+```sh
+aplay -l
+**** List of PLAYBACK Hardware Devices ****
+card 0: sndrpihifiberry [snd_rpi_hifiberry_dacplus], device 0: HiFiBerry DAC+ HiFi pcm512x-hifi-0 []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+```
+## コマンドラインによる音声再生・音量調節  
 
 ### 音声再生(wav)
 ```sh
-aplay --device=hw:0,0 ＜音声ファイル名.wav＞  
+aplay ＜音声ファイル名.wav＞  
 ```
 ### 音声再生(mp3,etc...)
 ```sh
 # sudo apt install mplayer
-mplayer -quiet -ao alsa:device=hw=0.0 ＜音声ファイル名.mp3＞  
+mplayer -quiet ＜音声ファイル名.mp3＞  
 ```
 ### 音量調節
 ```sh
