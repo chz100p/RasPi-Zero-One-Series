@@ -13,7 +13,7 @@ dtparam=audio=on
 
 コマンドラインによる音声再生・音量調節  
 
-### 音声再生(wavのみ)
+### 音声再生(wav)
 ```sh
 aplay --device=hw:0,0 ＜音声ファイル名.wav＞  
 ```
