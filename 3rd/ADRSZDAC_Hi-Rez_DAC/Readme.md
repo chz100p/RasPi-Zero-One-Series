@@ -24,10 +24,12 @@ card 0: sndrpihifiberry [snd_rpi_hifiberry_dacplus], device 0: HiFiBerry DAC+ Hi
 ```sh
 aplay ＜音声ファイル名.wav＞  
 ```
-### 音声再生(mp3,etc...)
+### 音声再生(mp3,flac,etc...)
 ```sh
 # sudo apt install mplayer
-mplayer -quiet ＜音声ファイル名.mp3＞  
+mplayer ＜音声ファイル名＞  
+# sudo apt install vlc
+vlc --play-and-exit ＜音声ファイル名＞  
 ```
 ### 音量調節
 ```sh
