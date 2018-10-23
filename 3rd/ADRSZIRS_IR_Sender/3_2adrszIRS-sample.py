@@ -1,7 +1,5 @@
 #!/usr/bin/python3
 #coding: utf-8
-#####!で始まる1行目の記述はShebangスクリプト自体を実行
-#####2行目に、マジックコメントを記述文字エンコーディング
 #
 # ファイル名：3_2adrszIRS-sample.py  python3用
 # バージョン：2018/7/27 v1.0
@@ -12,9 +10,9 @@
 #  実行方法：読込　./3_2adrszIRS-sample.py r 
 #　　　　　　書込　./3_2adrszIRS-sample.py w　5B0018002E001800
 #　******使い方：コマンドライン　ツール
-#学習リモコン→ラズハ゜イ　読込コマンド（r:)：、 応答：データ
+#学習リモコン→ラズパイ　読込コマンド（r:)：、 応答：データ
 #　
-#学習リモコン←ラズハ゜イ　書込コマンド（w:)：、データ
+#学習リモコン←ラズパイ　書込コマンド（w:)：、データ
 #
 #sample-data：ソニー	デジタルテレビ１	電源
 #5B0018002E001800180018002E001800170018002E00190017001800170018002E00180018001800170018001700180017004F03
@@ -154,43 +152,28 @@ def write_command(block2):
 
 
 ###########################   main
-#dir_name = '/home/pi/zeroone/3_2adrszIRS/'
-#os.chdir(dir_name)
-    
-#while True:
-argvc = sys.argv
-argc = len(argvc)
-#print(str(argc))#
-#-------------------
-if (argc >= 2):
-    command = argvc[1]
-    memo_no = [0x0]
-    print(command)
-    if (command == 'w'):
-        block2 = argvc[2]
-        #print(block2)
-        #print('start_write_command')
-        write_command(block2)
-        #break
-    elif (command == 'r'):
+
+def command_read(args):
         res_data = read_command()
         for i in range(len(res_data)):
-            print('{:02X}'.format(res_data[i]), end=""); #141
-            #print('')          
-            #break
-    #if (argc == 2):
-    #if (command == 'w'):
-     #   block2 = argvc[2]
-        #print(block2)
-      #  print('start_write_command')
-       # write_command(block2)
-        #break
-    else:
-        print("invalid command!!!!!")
-elif (argc == 1):
-    print("usage:./3_2adrszIRS-sample.py r")
-    print("usage:./3_2adrszIRS-sample.py w 5B0018002E001800")
-    #break
+            print('{:02X}'.format(res_data[i]), end="");
 
-#break
+def command_write(args):
+        block2 = args.data
+        write_command(block2)
 
+import argparse
+
+parser = argparse.ArgumentParser(description="ビット・トレード・ワン社提供の 赤外線リモコン基板(型番：ADRSZIRS)用のツール")
+subparsers = parser.add_subparsers(dest='command')
+subparsers.required = True # kludge
+
+parser_read = subparsers.add_parser('read', aliases=['r'], help="学習リモコン→ラズパイ")
+parser_read.set_defaults(func=command_read)
+
+parser_write = subparsers.add_parser('write', aliases=['w'], help="学習リモコン←ラズパイ")
+parser_write.set_defaults(func=command_write)
+parser_write.add_argument('data', help='書込データ')
+
+args = parser.parse_args()
+args.func(args)
